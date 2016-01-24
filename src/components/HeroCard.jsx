@@ -10,7 +10,7 @@ const styles = {
     }
 }
 
-const Hero = ({ id, name, picture, links }) => (
+const HeroCard = ({ id, name, picture, links }) => (
     <div className="column">
         <div className="ui card">
             <Link to={ `/heroes/${id}` } className="image" style={ Object.assign({}, styles.image, { backgroundImage: `url(${picture})` }) } />
@@ -30,4 +30,4 @@ const Hero = ({ id, name, picture, links }) => (
     </div>
 )
 
-export default Hero
+export default HeroCard

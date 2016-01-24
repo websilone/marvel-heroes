@@ -5,7 +5,7 @@ import Immutable from 'immutable'
 import ImmutablePropTypes from 'react-immutable-proptypes'
 
 import { loadHeroes } from 'actions/heroes'
-import Hero from 'components/Hero'
+import HeroCard from 'components/HeroCard'
 import Loader from 'components/Loader'
 
 const styles = {
@@ -58,7 +58,7 @@ class List extends React.Component {
                         const links = hero.get('urls')
                         const id = hero.get('id')
 
-                        return <Hero
+                        return <HeroCard
                             key={ index }
                             id={ id }
                             name={ name }
