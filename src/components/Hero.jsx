@@ -13,9 +13,9 @@ const styles = {
 const Hero = ({ id, name, picture, links }) => (
     <div className="column">
         <div className="ui card">
-            <Link to={ id.toString() } className="image" style={ Object.assign({}, styles.image, { backgroundImage: `url(${picture})` }) } />
+            <Link to={ `/heroes/${id}` } className="image" style={ Object.assign({}, styles.image, { backgroundImage: `url(${picture})` }) } />
             <div className="content">
-                <Link to={ id.toString() } className="header">
+                <Link to={ `/heroes/${id}` } className="header">
                     { name }
                 </Link>
             </div>

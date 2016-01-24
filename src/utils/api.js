@@ -19,6 +19,17 @@ const getHeroes = () => {
         .then((res) => res.json())
 }
 
+const getHero = id => {
+    // Should check if id is provided
+    // if not return a rejected promise with an error message
+    const ts = Date.now()
+    const hash = makeHash(ts)
+    const url = `${BASE_URL}/v1/public/characters/${id}?ts=${ts}&apikey=${API_KEY}&hash=${hash}`
+    return fetch(url)
+        .then((res) => res.json())
+}
+
 export {
-    getHeroes
+    getHeroes,
+    getHero
 }
