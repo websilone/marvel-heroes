@@ -7,6 +7,7 @@ import { Link } from 'react-router'
 
 import { loadHero } from 'actions/heroes'
 import ItemsList from 'components/ItemsList'
+import Loader from 'components/Loader'
 
 const styles = {
     title: {
@@ -49,23 +50,11 @@ class Detail extends React.Component {
 
                 {
                     isLoading
-                        ? this.renderLoading()
+                        ? <Loader text="Loading hero detail..." />
                         : this.renderHero()
                 }
             </div>
         )
-    }
-
-    renderLoading () {
-        return <div className="ui center segment">
-            <br/>
-            <br/>
-            <br/>
-            <br/>
-            <div className="ui active inverted dimmer">
-                <div className="ui text loader">Loading hero detail...</div>
-            </div>
-        </div>
     }
 
     renderHero () {

@@ -6,6 +6,7 @@ import ImmutablePropTypes from 'react-immutable-proptypes'
 
 import { loadHeroes } from 'actions/heroes'
 import Hero from 'components/Hero'
+import Loader from 'components/Loader'
 
 const styles = {
     title: {
@@ -16,7 +17,7 @@ const styles = {
 class List extends React.Component {
     static propTypes = {
         loadHeroes: PropTypes.func,
-        isHeroesLoading: PropTypes.bool,
+        isLoading: PropTypes.bool,
         heroes: ImmutablePropTypes.list
     };
 
@@ -31,32 +32,18 @@ class List extends React.Component {
     }
 
     render () {
-        const { isHeroesLoading } = this.props
+        const { isLoading } = this.props
 
         return (
             <div>
                 <h1 style={ styles.title } className="ui center aligned header">Marvel's Super Heroes List</h1>
                 {
-                    isHeroesLoading
-                        ? this.renderLoading()
+                    isLoading
+                        ? <Loader text="Loading heroes..." />
                         : this.renderHeroes()
                 }
             </div>
         )
-    }
-
-    renderLoading () {
-        return <div className="ui container">
-            <div className="ui center segment">
-                <br/>
-                <br/>
-                <br/>
-                <br/>
-                <div className="ui active inverted dimmer">
-                    <div className="ui text loader">Loading heroes...</div>
-                </div>
-            </div>
-        </div>
     }
 
     renderHeroes () {
@@ -87,7 +74,7 @@ class List extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        isHeroesLoading: state.heroes.get('isLoading', true),
+        isLoading: state.heroes.get('isLoading', true),
         heroes: state.heroes.get('heroes', Immutable.List())
     }
 }
