@@ -1,12 +1,17 @@
-import React, { Component } from 'react'
-import { render } from 'react-dom'
+import React from 'react';
+import ReactDOM from 'react-dom';
+import Router from 'react-router';
+import { browserHistory } from 'react-router';
+import { Provider } from 'react-redux';
+import configureStore from './store/configureStore';
 
-class App extends Component {
-    render () {
-        return <div>
-            It works !!
-        </div>
-    }
-}
+import getRoutes from './routes';
 
-render(<App />, document.getElementById('App'))
+const store = configureStore();
+
+ReactDOM.render(
+    <Provider store={ store }>
+        <Router history={ browserHistory }>{ getRoutes(store) }</Router>
+    </Provider>,
+    document.getElementById('App')
+);
