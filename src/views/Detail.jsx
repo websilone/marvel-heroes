@@ -3,15 +3,14 @@ import { connect } from 'react-redux'
 import shouldPureComponentUpdate from 'react-pure-render/function'
 import Immutable from 'immutable'
 import ImmutablePropTypes from 'react-immutable-proptypes'
+import { Link } from 'react-router'
 
 import { loadHero } from 'actions/heroes'
+import ItemsList from 'components/ItemsList'
 
 const styles = {
-    container : {
-        marginTop: '3em'
-    },
     title: {
-        marginBottom: '2em'
+        marginBottom: '1em'
     }
 }
 
@@ -32,6 +31,7 @@ class Detail extends React.Component {
     shouldComponentUpdate = shouldPureComponentUpdate;
 
     componentDidMount () {
+        window.scrollTo(0, 0);
         this.props.loadHero(this.props.params.id)
     }
 
@@ -39,8 +39,14 @@ class Detail extends React.Component {
         const { isLoading } = this.props
 
         return (
-            <div style={ styles.container }>
-                <h1 style={ styles.title } className="ui center aligned header">Marvel's Super Heroes Detail</h1>
+            <div className="ui container" style={ styles.container }>
+                <div className="ui segment">
+                    <Link to="/heroes" className="ui labeled icon button">
+                        <i className="left arrow icon"></i>
+                        Back to Heroes' List
+                    </Link>
+                </div>
+
                 {
                     isLoading
                         ? this.renderLoading()
@@ -51,25 +57,44 @@ class Detail extends React.Component {
     }
 
     renderLoading () {
-        return <div className="ui container">
-            <div className="ui center segment">
-                <br/>
-                <br/>
-                <br/>
-                <br/>
-                <div className="ui active inverted dimmer">
-                    <div className="ui text loader">Loading hero detail...</div>
-                </div>
+        return <div className="ui center segment">
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <div className="ui active inverted dimmer">
+                <div className="ui text loader">Loading hero detail...</div>
             </div>
         </div>
     }
 
     renderHero () {
-        // const { hero } = this.props
+        const { hero } = this.props
 
-        return <div className="ui container">
-            <div className="ui three column grid">
-                Details here
+        const picture = `${hero.getIn(['thumbnail', 'path'])}.${hero.getIn(['thumbnail', 'extension'])}`
+        const name = hero.get('name')
+        const description = hero.get('description', '')
+        const comicsList = hero.getIn(['comics', 'items'], Immutable.List())
+        const seriesList = hero.getIn(['series', 'items'], Immutable.List())
+
+        return <div className="ui grid">
+            <div className="six wide column">
+                <img className="ui large rounded image" src={ picture } alt={ name } />
+            </div>
+
+            <div className="ten wide column">
+                <div className="ui segment">
+                    <h1 style={ description !== '' ? styles.title : { marginBottom: 0 } } className="ui header">{ name }</h1>
+
+                    {
+                        description !== ''
+                            ? <p>{ description }</p>
+                            : ''
+                    }
+                </div>
+
+                { comicsList.size > 0 && <ItemsList title="Comics" list={ comicsList } /> }
+                { seriesList.size > 0 && <ItemsList title="Series" list={ seriesList } /> }
             </div>
         </div>
     }

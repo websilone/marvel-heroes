@@ -1,10 +1,15 @@
+import Immutable from 'immutable'
 import { getHeroes, getHero } from 'utils/api'
 import { GET_HEROES_REQUEST, GET_HEROES_SUCCESS } from 'constants/heroes'
 import { GET_HERO_REQUEST, GET_HERO_SUCCESS } from 'constants/hero'
 
 const shouldLoadHeroes = state => !state.get('haveBeenLoaded', false)
 const getHeroFromId = (heroes, id) => {
-    return false
+    const hero = heroes.get('heroes', Immutable.List()).find(hero => {
+        return hero.get('id') === Number(id)
+    }, undefined)
+
+    return hero
 }
 
 const loadHeroes = () => {
@@ -24,10 +29,12 @@ const loadHeroes = () => {
 
 const loadHero = id => {
     return (dispatch, getState) => {
-        if (getHeroFromId(getState().heroes, id)) {
+        const localHero = getHeroFromId(getState().heroes, id)
+
+        if (localHero) {
             dispatch({
                 type: GET_HERO_SUCCESS,
-                hero: {}
+                hero: localHero.toJS()
             })
         }
         else {
@@ -37,7 +44,7 @@ const loadHero = id => {
                 .then(json => {
                     dispatch({
                         type: GET_HERO_SUCCESS,
-                        hero: json
+                        hero: json.data.results[0]
                     })
                 })
         }

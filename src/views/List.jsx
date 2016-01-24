@@ -8,9 +8,6 @@ import { loadHeroes } from 'actions/heroes'
 import Hero from 'components/Hero'
 
 const styles = {
-    container : {
-        marginTop: '3em'
-    },
     title: {
         marginBottom: '2em'
     }
@@ -37,7 +34,7 @@ class List extends React.Component {
         const { isHeroesLoading } = this.props
 
         return (
-            <div style={ styles.container }>
+            <div>
                 <h1 style={ styles.title } className="ui center aligned header">Marvel's Super Heroes List</h1>
                 {
                     isHeroesLoading
