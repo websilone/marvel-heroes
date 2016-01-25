@@ -7,14 +7,15 @@
     "env": {
         "browser": true,
         "node": true,
-        "es6": true
+        "es6": true,
+        "jasmine": true
     },
 
     "globals" : {},
 
     "parser": "babel-eslint",
 
-    "plugins": ["react", "babel"],
+    "plugins": ["react", "babel", "jasmine"],
 
     "rules": {
         "brace-style": [2, "stroustrup", { "allowSingleLine": true }],

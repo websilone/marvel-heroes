@@ -37,8 +37,8 @@ module.exports = {
     devtool: DEVELOPMENT ? 'cheap-module-eval-source-map' : 'source-map',
     entry: DEVELOPMENT ? [
         'webpack-hot-middleware/client',
-        './src/index'
-    ] : ['./src/index', './index.html'],
+        './src/app'
+    ] : ['./src/app', './index.html'],
     output: {
         path: path.join(__dirname, 'dist'),
         filename: 'static/js/bundle.js',

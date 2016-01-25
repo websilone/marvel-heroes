@@ -10,6 +10,9 @@ Marvel heroes list made in React
 - Babel
 - ES2015
 - ESLint
+- Karma
+- PhantomJS
+- Jasmine
 
 ### Installation
 ```bash
@@ -21,5 +24,15 @@ $ npm install
 $ npm start
 ```
 
+### Build
+```bash
+$ npm run build
+```
+
+### Run tests
+```bash
+$ npm run test
+```
+
 ### TODOs
-- Adding a few tests ^^
+- Should do more tests ^^
