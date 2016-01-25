@@ -20,6 +20,9 @@
   "bugs": {
     "url": "https://github.com/websilone/marvel-heroes/issues"
   },
+    "engines": {
+        "node": "4.2.3"
+    },
   "homepage": "https://github.com/websilone/marvel-heroes#readme",
   "dependencies": {
     "history": "^1.17.0",
