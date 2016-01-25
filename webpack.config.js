@@ -2,35 +2,65 @@ var path = require('path');
 var webpack = require('webpack');
 var aliases = require('./aliases');
 
-/* module.exports = {
-    devtool: 'cheap-module-eval-source-map',
-    entry: {
-        html : './index.html',
-        javascript: [
-            // 'webpack-dev-server/client?http://localhost:3000',
-            'webpack-hot-middleware/client',
-            './src/index.jsx'
-        ]
-    },
+var DEVELOPMENT = process.env.NODE_ENV !== 'production';
+
+var plugins = [
+    new webpack.NoErrorsPlugin(),
+    new webpack.ProvidePlugin({
+        'fetch': 'imports?this=>global!exports?global.fetch!whatwg-fetch'
+    })
+];
+
+if (DEVELOPMENT) {
+    plugins.push(
+        new webpack.HotModuleReplacementPlugin()
+    );
+}
+else {
+    plugins.push(
+        new webpack.DefinePlugin({
+            'process.env': {
+                'NODE_ENV': JSON.stringify('production')
+            }
+        }),
+        new webpack.optimize.DedupePlugin(),
+        new webpack.optimize.UglifyJsPlugin({
+            compressor: {screw_ie8: true, keep_fnames: false, warnings: false},
+            mangle: {screw_ie8: true, keep_fnames: false}
+        }),
+        new webpack.optimize.OccurenceOrderPlugin(),
+        new webpack.optimize.AggressiveMergingPlugin()
+    );
+}
+
+module.exports = {
+    devtool: DEVELOPMENT ? 'cheap-module-eval-source-map' : 'source-map',
+    entry: DEVELOPMENT ? [
+        'webpack-hot-middleware/client',
+        './src/index'
+    ] : ['./src/index', './index.html'],
     output: {
         path: path.join(__dirname, 'dist'),
         filename: 'static/js/bundle.js',
         publicPath: '/'
     },
-    plugins: [
-        new webpack.HotModuleReplacementPlugin(),
-        new webpack.NoErrorsPlugin()
-    ],
+    plugins: plugins,
     module: {
+        preLoaders: [
+            {
+                test: /\.jsx?$/,
+                loaders: ['eslint'],
+                include: path.join(__dirname, 'src')
+            }
+        ],
         loaders: [
             {
                 test: /\.jsx?/,
                 loaders: ['babel'],
-                exclude: /node_modules/,
                 include: path.join(__dirname, 'src')
             },
             {
-                test: /index\.html$/,
+                test: /\.html$/,
                 loader: 'file?name=[name].[ext]'
             }
         ]
@@ -40,54 +70,5 @@ var aliases = require('./aliases');
         modulesDirectories: ['node_modules', 'src'],
         extensions: ['', '.js', '.jsx'],
         alias : aliases
-    },
-    devServer: {
-        contentBase: './dist',
-        hot: true,
-        colors: true,
-        port: 3000,
-        chunkModules: false,
-        historyApiFallback: true,
-        inline: true
     }
-}; */
-
-module.exports = {
-    devtool: 'cheap-module-eval-source-map',
-    entry: [
-        'webpack-hot-middleware/client',
-        './src/index'
-    ],
-    output: {
-        path: path.join(__dirname, 'dist'),
-        filename: 'static/js/bundle.js',
-        publicPath: '/'
-    },
-    plugins: [
-        new webpack.HotModuleReplacementPlugin(),
-        new webpack.NoErrorsPlugin(),
-        new webpack.ProvidePlugin({
-            'fetch': 'imports?this=>global!exports?global.fetch!whatwg-fetch'
-        }),
-    ],
-    module: {
-        preLoaders: [
-            {
-                test: /\.jsx?$/,
-                loaders: ['eslint'],
-                include: path.join(__dirname, 'src')
-            }
-        ],
-        loaders: [{
-            test: /\.jsx?/,
-            loaders: ['babel'],
-            include: path.join(__dirname, 'src')
-        }]
-    },
-    resolve: {
-        root: path.join(__dirname, 'node_modules'),
-        modulesDirectories: ['node_modules', 'src'],
-        extensions: ['', '.js', '.jsx'],
-        alias : aliases
-    },
 };
