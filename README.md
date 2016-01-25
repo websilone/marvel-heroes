@@ -36,4 +36,5 @@ $ npm run test
 ```
 
 ### TODOs
+- Handle errors when loading data
 - Should do more tests ^^
