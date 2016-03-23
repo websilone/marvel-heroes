@@ -1,6 +1,7 @@
 # marvel-heroes
 Marvel heroes list made in React<br />
 Live demo is here : [http://marvel-heroes.herokuapp.com](http://marvel-heroes.herokuapp.com/)
+Live is OFF now
 
 ### Ecosystem
 - ReactJS
